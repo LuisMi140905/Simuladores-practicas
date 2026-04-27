@@ -35,30 +35,28 @@
             letter-spacing: 1px; pointer-events: none; opacity: 0.9;
         }
 
-        /* Ajustes UI Celular Vertical (Portrait) */
         @media (max-width: 600px) and (orientation: portrait) {
             #ui { 
                 width: 88%; max-width: 400px; 
                 left: 50%; transform: translateX(-50%); 
-                top: auto; bottom: 20px; /* Panel abajo para usar con pulgares */
+                top: auto; bottom: 20px; 
                 padding: 25px; 
             }
             h3 { font-size: 1.4em; margin-bottom: 20px; text-align: center; }
             .control { margin-bottom: 20px; }
             label { font-size: 1.05em; margin-bottom: 10px; }
             .val { font-size: 1.1em; }
-            input[type="range"] { height: 15px; } /* Área táctil más grande */
+            input[type="range"] { height: 15px; } 
             button { padding: 15px; font-size: 1.1em; margin-top: 5px; }
             #data-panel { margin-top: 20px; padding: 15px; }
             .panel-title { font-size: 0.9em; }
             .panel-value { font-size: 2.3em; }
             
             #watermark { 
-                top: 20px; bottom: auto; /* Sube la marca de agua para no chocar */
+                top: 20px; bottom: auto;
             }
         }
 
-        /* Ajustes UI Celular Horizontal (Landscape) */
         @media (max-height: 500px) and (orientation: landscape) {
             #ui { width: 280px; top: 10px; left: 10px; padding: 10px 15px; max-height: 90vh; }
             h3 { font-size: 1em; margin-bottom: 5px; }
@@ -360,7 +358,8 @@
             controls.update();
             
             const currentL = valL * 38;
-            const speed = valI * 0.0015 * polaridad;
+            const absoluteSpeed = valI * 0.006 * polaridad;
+            const speed = absoluteSpeed / currentL;
             
             globalParticleOffset += speed;
             if (globalParticleOffset > 1) globalParticleOffset -= 1;
@@ -373,6 +372,7 @@
                 if (valI > 0 && index < maxParticles) {
                     p.mesh.visible = true;
                     let pOffset = (globalParticleOffset + index * spacing) % 1.0;
+                    if(pOffset < 0) pOffset += 1.0;
                     p.mesh.position.set((pOffset - 0.5) * currentL, 0, 0);
                     p.mesh.rotation.y = polaridad > 0 ? 0 : Math.PI;
                 } else {
