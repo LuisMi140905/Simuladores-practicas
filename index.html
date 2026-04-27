@@ -35,12 +35,30 @@
             letter-spacing: 1px; pointer-events: none; opacity: 0.9;
         }
 
+        /* Ajustes UI Celular Vertical (Portrait) */
         @media (max-width: 600px) and (orientation: portrait) {
-            #ui { width: 90%; max-width: 350px; left: 50%; transform: translateX(-50%); padding: 15px; }
-            h3 { font-size: 1.1em; margin-bottom: 10px; }
-            .control { margin-bottom: 10px; }
+            #ui { 
+                width: 88%; max-width: 400px; 
+                left: 50%; transform: translateX(-50%); 
+                top: auto; bottom: 20px; /* Panel abajo para usar con pulgares */
+                padding: 25px; 
+            }
+            h3 { font-size: 1.4em; margin-bottom: 20px; text-align: center; }
+            .control { margin-bottom: 20px; }
+            label { font-size: 1.05em; margin-bottom: 10px; }
+            .val { font-size: 1.1em; }
+            input[type="range"] { height: 15px; } /* Área táctil más grande */
+            button { padding: 15px; font-size: 1.1em; margin-top: 5px; }
+            #data-panel { margin-top: 20px; padding: 15px; }
+            .panel-title { font-size: 0.9em; }
+            .panel-value { font-size: 2.3em; }
+            
+            #watermark { 
+                top: 20px; bottom: auto; /* Sube la marca de agua para no chocar */
+            }
         }
 
+        /* Ajustes UI Celular Horizontal (Landscape) */
         @media (max-height: 500px) and (orientation: landscape) {
             #ui { width: 280px; top: 10px; left: 10px; padding: 10px 15px; max-height: 90vh; }
             h3 { font-size: 1em; margin-bottom: 5px; }
@@ -198,9 +216,9 @@
             scene.add(wireLineLeft);
             scene.add(wireLineRight);
 
-            const pGeo = new THREE.ConeGeometry(0.05, 0.15, 8); pGeo.rotateZ(-Math.PI/2);
+            const pGeo = new THREE.ConeGeometry(0.065, 0.45, 8); pGeo.rotateZ(-Math.PI/2);
             const pMat = new THREE.MeshBasicMaterial({color: 0xfacc15});
-            for(let i = 0; i < 30; i++) {
+            for(let i = 0; i < 15; i++) {
                 let p = new THREE.Mesh(pGeo, pMat); p.visible = false;
                 scene.add(p);
                 particles.push({ mesh: p, offset: 0 });
@@ -342,13 +360,13 @@
             controls.update();
             
             const currentL = valL * 38;
-            const speed = valI * 0.005 * polaridad;
+            const speed = valI * 0.0015 * polaridad;
             
             globalParticleOffset += speed;
             if (globalParticleOffset > 1) globalParticleOffset -= 1;
             if (globalParticleOffset < 0) globalParticleOffset += 1;
 
-            const maxParticles = Math.max(8, Math.floor((valL / 0.15) * 30));
+            const maxParticles = Math.max(3, Math.floor((valL / 0.15) * 10));
             const spacing = 1.0 / maxParticles;
 
             particles.forEach((p, index) => {
